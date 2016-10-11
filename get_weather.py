@@ -1,5 +1,6 @@
 #uses the Weather Underground API to get weather conditions.
 #if used be sure to attribute WU
+
 from urllib.request import urlopen
 import json
 
@@ -13,10 +14,11 @@ def get_current(state,city):
     f = urlopen("http://api.wunderground.com/api/8fd48eef21c613b9/conditions/q/"+str(state)+"/"+str(city)+".json")
     json_string = f.read()
     parsed_json = json.loads(json_string)
-    full = parsed_json['current_observation']["display_location"]['city']
+    city = parsed_json['current_observation']["display_location"]['city']
     temp_f = parsed_json['current_observation']['temp_f']
-    print("Current temperature: " + str(temp_f) + "F in " + str(full)+ ".")
+    print("Current temperature: " + str(temp_f) + "F in " + str(city)+ ".")
     f.close()
+    return temp_f
 
 #get forecast
 def get_forecast(state,city):
@@ -24,9 +26,10 @@ def get_forecast(state,city):
     f = urlopen("http://api.wunderground.com/api/8fd48eef21c613b9/forecast/q/"+str(state)+"/"+str(city)+".json")
     json_string = f.read()
     parsed_json = json.loads(json_string)
-    full = parsed_json['forecast']['txt_forecast']['forecastday'][0]['fcttext']
-    print("Forecast: "+full)
+    forecast = parsed_json['forecast']['txt_forecast']['forecastday'][0]['fcttext']
+    print("Forecast: "+forecast)
     f.close()
+    return forecast
 
 #replaces blank spaces with underscores (used for two word cities)
 def replace_spaces(city):
@@ -34,5 +37,5 @@ def replace_spaces(city):
     return city
 
 #run program
-get_forecast(state,city)
-get_current(state,city)
+forecast = get_forecast(state,city)
+c_temp = get_current(state,city)
