@@ -5,6 +5,7 @@ from urllib.request import urlopen
 import json
 
 #get state and city for url
+#i have these hard coded in the version I use, so the script can run on it's own
 state = input("Enter state: ")
 city = input("Enter city: ")
 
